@@ -1,58 +1,69 @@
-📡 Project: Addis Pulse
-Vision: A real-time availability and booking platform for the Addis Ababa remote workforce.
-Objective: Optimize the search for stable power and internet while creating a monetization loop for workspace owners.
-🏗️ 1. Technical Stack (The Infrastructure)
-Framework: Next.js 15 (App Router, React Server Components).
-Language: TypeScript (Strict Mode).
-Database: PostgreSQL (Managed via Prisma ORM).
-Cache/Hot State: Redis (For real-time status and rate limiting).
-Containerization: Docker & Docker Compose (Environment Parity).
-Security: NextAuth (RBAC), Middleware-level Geofencing.
-🗺️ 2. Core Architectural Workflows
-A. Geolocation Handshake (Client-to-Server)
-To ensure sub-second performance without "Loading Spinners":
-Client: Captures Lat/Lng via Browser API.
-Bridge: Encodes coordinates into HTTP Cookies.
-Server: RSC reads cookies on the initial request.
-Database: Performs a distance-based query to return only nearby workspaces.
-B. The "Heartbeat" Confidence System
-To solve the "Truth Gap" in the Ethiopian context:
-Green (Fresh): Updated/Verified within < 4 hours.
-Yellow (Stale): 4–12 hours since last update.
-Gray (Unverified): > 12 hours. Triggers a "Request Heartbeat" notification to the Owner.
-Status Note: Allows owners to provide context (e.g., "Planned maintenance until 4 PM").
-C. Booking & Refund Protocol
-Booking: Atomic transaction to reserve a seat.
-Fault Policy: If a user reports "No Power" during a paid booking, the system initiates a Conditional Credit.
-Resolution: The owner has 1 hour to dispute. If no dispute, the user receives an automatic credit for their next session (minimizing manual admin work).
-📊 3. Data Schema (Simplified)
-User: (Roles: USER, OWNER, ADMIN).
-Workspace: (Geo-coordinates, price, official status, verification status).
-StatusReport: (Crowdsourced verification logs to keep owners honest).
-Booking: (Time-slotted reservations with payment status).
-🚀 4. Development Roadmap (Phase 1: MVP)
-Milestone 1: The Foundation
+# 🏗️ Addis Pulse: Architectural Specification
 
-Dockerized environment (App, DB, Redis) stable.
+This document outlines the high-level architectural decisions, data flow patterns, and infrastructure design for the **Addis Pulse** platform.
 
-Prisma schema migrated to local Postgres.
+---
 
-User Auth (Login/Register) with Role selection.
-Milestone 2: The Discovery Engine
+## 🏛️ Architectural Philosophy
 
-Geolocation-to-Cookie bridge implemented.
+Addis Pulse is built on the principle of **Infrastructure-First Development**. By containerizing the entire stack and defining strict data contracts via Prisma, the system ensures **Environment Parity**—the application behaves identically in local development, staging, and production.
 
-Workspace Registration form for OWNER role.
+---
 
-Dashboard: List of nearby workspaces with "Live" power/internet icons.
-Milestone 3: The Status Loop
+## 💻 Tech Stack & Component Roles
 
-Owner-only "Status Toggle" with Redis-backed hot-cache.
+| Layer         | Technology              | Responsibility                                                         |
+| :------------ | :---------------------- | :--------------------------------------------------------------------- |
+| **Framework** | Next.js 15 (App Router) | Handles Routing, Rendering (RSC), and Server-side logic via Actions.   |
+| **Language**  | TypeScript              | Ensures type safety and reduces runtime errors across the full stack.  |
+| **Database**  | PostgreSQL              | The primary "Source of Truth" for users, workspaces, and bookings.     |
+| **ORM**       | Prisma                  | Acts as the type-safe bridge between TypeScript and the relational DB. |
+| **Hot Cache** | Redis                   | Manages ephemeral state like real-time power status and rate limits.   |
+| **Container** | Docker                  | Encapsulates dependencies and system-level libraries (OpenSSL).        |
 
-Automatic "Confidence" styling (Green/Yellow/Gray) based on timestamps.
+---
 
-User "Verification Ping" logic.
-💡 5. Senior Strategy Notes
-Scalability: We use Redis for status because checking "Power status" is a high-frequency read. We don't want to hit Postgres for every single map move.
-Resilience: We implement Global Error Boundaries specifically for the Map and Payment modules.
-Performance: Use React Suspense to stream the workspace list so the map shell is visible immediately.
+## 📡 Core Data Flows
+
+### 1. Geolocation Handshake (Client-to-Server)
+To optimize for **Largest Contentful Paint (LCP)**, we avoid client-side fetching for the initial map load:
+1.  **Detection:** A lightweight Client Component captures the user's coordinates via the `navigator.geolocation` API.
+2.  **The Bridge:** Coordinates are persisted in **HTTP Cookies**.
+3.  **Consumption:** The Server Component reads these cookies on the initial request, allowing PostgreSQL to perform distance-based queries *before* the HTML is even sent to the browser.
+
+### 2. The "Heartbeat" Confidence System
+Reliability in a high-fluctuation environment is managed through a confidence-score algorithm:
+- **State Storage:** The "Live Status" is stored in **Redis** for sub-millisecond retrieval.
+- **TTL (Time to Live):** Reports have an expiration window. After 6 hours, the system marks the status as "Stale" unless an **Owner Heartbeat** (manual verification) is received.
+- **Background Tasks:** A revalidation process handles the transition from Postgres history to Redis hot-state.
+
+---
+
+### 3. Distributed State Synchronization
+We leverage the **BroadcastChannel API** to ensure real-time consistency without the overhead of a centralized WebSocket server:
+- **Event Emission:** Any mutation (e.g., updating power status) emits a signal on a shared browser bus.
+- **Reactive Refresh:** All open tabs listen for this signal and trigger an on-demand `router.refresh()`, ensuring the user sees consistent data across their entire browser session.
+
+---
+
+## 🗄️ Data Modeling (ERD Logic)
+
+The schema is designed for **Atomic Integrity** and future scalability:
+- **RBAC:** Role-Based Access Control is enforced at the database level using Enums (`USER`, `OWNER`, `ADMIN`).
+- **Relational Integrity:** Foreign key constraints and Cascading Deletes (specifically for notifications) prevent "Orphaned Data."
+- **Indexing:** High-traffic columns (like `workspace.ownerId` and `user.email`) are indexed to maintain $O(\log N)$ lookup performance as the user base grows.
+
+---
+
+## 🛠️ Infrastructure & DevOps
+
+The application is deployed as a **3-node application cluster**:
+1.  **Nginx (Layer 7):** Acts as the ingress gateway, performing load balancing and SSL termination.
+2.  **Stateless App Nodes:** Multiple instances of the Next.js container ensure that if one node fails, the load balancer redistributes traffic to healthy nodes with zero downtime.
+3.  **Persistence Layer:** Named volumes are utilized to ensure that PostgreSQL data persists across container restarts and updates.
+
+---
+
+## 🧪 Architect's Intent
+
+> "In architecting Addis Pulse, the primary goal was to solve the **'Stale Data'** problem prevalent in local infrastructure tracking. By combining **React Suspense** for streaming with **Redis** for hot-state management, the system provides immediate visual feedback while maintaining strong data consistency. This architecture is built to be **cloud-agnostic**, ready to move from local Docker Compose to AWS ECS or Kubernetes without refactoring."
