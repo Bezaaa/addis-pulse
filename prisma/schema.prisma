@@ -1,0 +1,37 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  OWNER
+  ADMIN
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String
+  role          Role      @default(USER)
+  workspaces    Workspace[]
+  createdAt     DateTime  @default(now())
+}
+
+model Workspace {
+  id            String   @id @default(cuid())
+  name          String
+  address       String
+  lat           Decimal  @db.Decimal(10, 8)
+  lng           Decimal  @db.Decimal(11, 8)
+  hasPower      Boolean  @default(true)
+  hasInternet   Boolean  @default(true)
+  lastUpdated   DateTime @default(now())
+  ownerId       String
+  owner         User     @relation(fields: [ownerId], references: [id])
+}

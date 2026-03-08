@@ -1,0 +1,27 @@
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: beza
+      POSTGRES_PASSWORD: pulse_password
+      POSTGRES_DB: addis_pulse
+    volumes:
+      - pulse_db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:alpine
+    
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: "postgresql://beza:pulse_password@db:5432/addis_pulse"
+      REDIS_URL: "redis://redis:6379"
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  pulse_db_data:

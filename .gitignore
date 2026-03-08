@@ -16,6 +16,9 @@
 # next.js
 /.next/
 /out/
+.next
+out
+build
 
 # production
 /build
@@ -33,9 +36,18 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
 # vercel
 .vercel
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/app/generated/prisma
+postgres_data/
+/lib/generated/prisma
