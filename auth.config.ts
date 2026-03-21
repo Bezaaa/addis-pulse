@@ -3,7 +3,6 @@ import { NextResponse } from "next/server";
 
 type Role = "OWNER" | "USER" | "ADMIN";
 
-const PUBLIC_ROUTES = ["/", "/login", "/register"];
 const AUTH_ROUTES = ["/login", "/register"];
 const DASHBOARD_PREFIX = "/dashboard";
 const OWNER_PREFIX = "/owner";
@@ -43,11 +42,8 @@ export const authConfig: NextAuthConfig = {
         return isLoggedIn; // false triggers redirect to pages.signIn
       }
 
-      // Public routes — always allow
-      if (PUBLIC_ROUTES.includes(path)) return true;
-
-      // Everything else — require authentication
-      return isLoggedIn;
+      // Everything else — public by default
+      return true;
     },
 
     async jwt({ token, user }) {
