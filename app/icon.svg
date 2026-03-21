@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Amber background rounded square -->
+  <rect width="32" height="32" rx="8" fill="#f59e0b"/>
+  <!-- Zap / lightning bolt (lucide-react Zap path, scaled to fit) -->
+  <path
+    d="M18 3L7 17h8l-1 12L25 15h-8l1-12z"
+    fill="white"
+    stroke="white"
+    stroke-width="0.5"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+</svg>

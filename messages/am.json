@@ -1,0 +1,78 @@
+{
+  "common": {
+    "appName": "አዲስ ፑልስ",
+    "tagline": "ፍጹም የሥራ ቦታዎን ያግኙ",
+    "and": "እና"
+  },
+  "auth": {
+    "login": {
+      "title": "ወደ መለያዎ ይግቡ",
+      "subtitle": "ዳሽቦርድዎን ለመድረስ ማረጋገጫዎን ያስገቡ።",
+      "emailLabel": "ኢሜይል አድራሻ",
+      "emailPlaceholder": "abebe@example.com",
+      "passwordLabel": "የይለፍ ቃል",
+      "passwordPlaceholder": "የይለፍ ቃልዎ",
+      "forgotPassword": "የይለፍ ቃልዎን ረሱ?",
+      "submit": "ይግቡ",
+      "submitting": "እየገቡ ነው\u2026",
+      "noAccount": "መለያ የለዎትም?",
+      "signUpLink": "ይመዝገቡ",
+      "createAccount": "ነፃ መለያ ይፍጠሩ",
+      "newTo": "ለ አዲስ ፑልስ አዲስ ናቸው?",
+      "privacy": "በኢንዱስትሪ ደረጃ ምስጠራ የተጠበቀ።",
+      "privacyLink": "የግልነት ፖሊሲ",
+      "errorInvalid": "ልክ ያልሆነ ኢሜይል ወይም የይለፍ ቃል። እባክዎ እንደገና ይሞክሩ።",
+      "successWelcome": "እንኳን ደህና ተመለሱ!"
+    },
+    "register": {
+      "title": "መለያ ይፍጠሩ",
+      "subtitle": "አዲስ ፑልስን ይቀላቀሉ እና የሥራ ቦታዎችን ማሰስ ይጀምሩ።",
+      "nameLabel": "ሙሉ ስም",
+      "namePlaceholder": "አበበ ግርማ",
+      "emailLabel": "ኢሜይል አድራሻ",
+      "emailPlaceholder": "abebe@example.com",
+      "passwordLabel": "የይለፍ ቃል",
+      "passwordPlaceholder": "ቢያንስ 8 ቁምፊዎች",
+      "roleLabel": "እፈልጋለሁ\u2026",
+      "userRoleTitle": "የሥራ ቦታ ፈልግ",
+      "userRoleDesc": "ሥራ ቦታ የሚፈልግ ፈሪላንሰር ወይም ከርቀት ሠራተኛ ነኝ።",
+      "ownerRoleTitle": "ቦታዬን ዝርዝር ያድርጉ",
+      "ownerRoleDesc": "ካፌ ወይም የጋራ ሥራ ቦታ ያለኝ ሲሆን ሠራተኞችን ለመሳብ እፈልጋለሁ።",
+      "submit": "መለያ ፍጠር",
+      "submitting": "መለያ እየፈጠሩ ነው\u2026",
+      "alreadyHave": "ቀድሞ መለያ አለዎ?",
+      "signInLink": "ይግቡ",
+      "termsPrefix": "መለያ ሲፈጥሩ ለ",
+      "termsLink": "የአገልግሎት ውሎቻችን",
+      "privacyLink": "የግልነት ፖሊሲያችን"
+    }
+  },
+  "brand": {
+    "login": {
+      "headline": "እንኳን ደህና ተመለሱ።",
+      "headlineAccent": "የሥራ ቦታዎ እየጠበቀ ነው።",
+      "description": "በአዲስ አበባ ውስጥ ያሉ ምርጥ ካፌዎች እና የጋራ ሥራ ቦታዎች በአንድ ጠቅታ ይገኛሉ።",
+      "statsSpaces": "የተረጋገጡ ቦታዎች",
+      "statsMembers": "ንቁ አባላት",
+      "statsRating": "አማካይ ደረጃ",
+      "statsNew": "በዚህ ሳምንት አዲስ",
+      "recentlyActive": "በቅርቡ ንቁ",
+      "trusted": "በኢትዮጵያ ውስጥ ባሉ ፈሪላንሰሮች፣ ከርቀት ሠራተኞች እና የሥራ ቦታ ባለቤቶች የሚታመን።"
+    },
+    "register": {
+      "badge": "በአዲስ አበባ ያለ ቀጥታ የሥራ ቦታ ዳታ",
+      "headline": "የከተማዎ የሥራ ቦታዎች፣",
+      "headlineAccent": "ጣትዎ ጫፍ ላይ።",
+      "description": "የኢትዮጵያን ዋና ከተማ የሥራ ወደፊት የሚቀርጹ ሺዎች ፈሪላንሰሮች እና የሥራ ቦታ ባለቤቶችን ይቀላቀሉ።",
+      "feat1Title": "የተረጋገጠ ግንኙነት",
+      "feat1Desc": "ለእያንዳንዱ ቦታ የቀጥታ ኢንተርኔት እና የኤሌክትሪክ ሁኔታ።",
+      "feat2Title": "ፈጣን ፍለጋ",
+      "feat2Desc": "በፍላጎትዎ ተፈልጎ ቅርብ ያሉ የሥራ ቦታዎችን ያግኙ።",
+      "feat3Title": "በሁሉም አዲስ አበባ",
+      "feat3Desc": "ከቦሌ እስከ ሲኤምሲ \u2014 እያንዳንዱ ሰፈር ተሸፍኗል።",
+      "testimonialQuote": "አዲስ ፑልስ በሳምንት ሰዓቶችን አድኖኝ ነው። ቤት ሳልወጣ ካፌው ኃይል እንዳለ ቀድሜ አውቃለሁ።",
+      "testimonialAuthor": "መቅደስ አለሙ",
+      "testimonialRole": "ፈሪላንስ ዲዛይነር፣ አዲስ አበባ"
+    }
+  }
+}

@@ -51,3 +51,5 @@ next-env.d.ts
 /app/generated/prisma
 postgres_data/
 /lib/generated/prisma
+
+.vercel

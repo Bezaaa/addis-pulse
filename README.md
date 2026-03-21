@@ -1,4 +1,5 @@
 # 📡 Addis Pulse
+
 ### **Real-time Workspace Resilience & Booking Platform**
 
 **Addis Pulse** is a high-performance system designed to bridge the infrastructure gap for remote workers and freelancers in Addis Ababa. It provides a real-time "Pulse" on power and internet availability across local workspaces, integrated with a secure booking and payment ecosystem.
@@ -10,6 +11,7 @@
 This project is built using a **Production-First** mindset, moving beyond simple CRUD to a distributed, containerized architecture.
 
 ### **The Stack**
+
 - **Frontend:** Next.js 15 (App Router), React Server Components (RSC), TypeScript, Tailwind CSS.
 - **State & Sync:** BroadcastChannel API (Cross-tab sync), React Suspense (Streaming).
 - **Backend:** Next.js Server Actions, Node.js.
@@ -18,6 +20,7 @@ This project is built using a **Production-First** mindset, moving beyond simple
 - **Infrastructure:** Docker & Docker Compose (3-node application cluster pattern).
 
 ### **Engineering Highlights**
+
 - **Streaming Architecture:** Leverages RSC and Suspense to achieve sub-second perceived performance by streaming workspace data while the UI shell remains interactive.
 - **Geospatial Handshake:** Implements a Client-to-Server bridge via the Geolocation API and HTTP Cookies, allowing for server-side distance calculations without layout shifts.
 - **Stateless Scaling:** Uses Redis as a distributed source of truth for "Live Pulse" data, ensuring consistency across horizontally scaled application nodes.
@@ -42,3 +45,4 @@ This project is fully containerized to ensure **Environment Parity**. To spin up
    ```bash
    git clone https://github.com/Bezaaa/addis-pulse.git
    cd addis-pulse
+   ```

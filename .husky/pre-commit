@@ -1,0 +1,29 @@
+#!/usr/bin/env sh
+
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "  Pre-commit checks"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# 1. Prettier + ESLint on staged files only (fast — only touches changed files)
+echo ""
+echo "▶ Formatting & linting staged files..."
+npx lint-staged || { echo "✖ lint-staged failed. Fix the issues above then re-commit."; exit 1; }
+
+# 2. Prettier format check across the whole project (catches unformatted unstaged files)
+echo ""
+echo "▶ Checking formatting..."
+npx prettier --check . || { echo "✖ Prettier found unformatted files. Run: npx prettier --write . then re-commit."; exit 1; }
+
+# 3. Full test suite
+echo ""
+echo "▶ Running tests..."
+npm test || { echo "✖ Tests failed. Fix failing tests then re-commit."; exit 1; }
+
+# 4. Next.js build (catches type errors and build-time failures)
+echo ""
+echo "▶ Building app..."
+npm run build || { echo "✖ Build failed. Fix build errors then re-commit."; exit 1; }
+
+echo ""
+echo "✔ All checks passed — committing."
+echo ""

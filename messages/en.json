@@ -1,0 +1,78 @@
+{
+  "common": {
+    "appName": "Addis Pulse",
+    "tagline": "Find Your Perfect Workspace",
+    "and": "and"
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in to your account",
+      "subtitle": "Enter your credentials to access your dashboard.",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "abebe@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "Your password",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "submitting": "Signing in\u2026",
+      "noAccount": "Don't have an account?",
+      "signUpLink": "Sign up",
+      "createAccount": "Create a free account",
+      "newTo": "New to Addis Pulse?",
+      "privacy": "Protected by industry-standard encryption.",
+      "privacyLink": "Privacy Policy",
+      "errorInvalid": "Invalid email or password. Please try again.",
+      "successWelcome": "Welcome back!"
+    },
+    "register": {
+      "title": "Create your account",
+      "subtitle": "Join Addis Pulse and start discovering workspaces.",
+      "nameLabel": "Full Name",
+      "namePlaceholder": "Abebe Girma",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "abebe@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "At least 8 characters",
+      "roleLabel": "I want to\u2026",
+      "userRoleTitle": "Find Workspaces",
+      "userRoleDesc": "I\u2019m a freelancer or remote worker looking for a place to work.",
+      "ownerRoleTitle": "List My Space",
+      "ownerRoleDesc": "I own a caf\u00e9 or co-working space and want to attract workers.",
+      "submit": "Create Account",
+      "submitting": "Creating account\u2026",
+      "alreadyHave": "Already have an account?",
+      "signInLink": "Sign in",
+      "termsPrefix": "By creating an account you agree to our",
+      "termsLink": "Terms of Service",
+      "privacyLink": "Privacy Policy"
+    }
+  },
+  "brand": {
+    "login": {
+      "headline": "Welcome back.",
+      "headlineAccent": "Your workspace awaits.",
+      "description": "The best caf\u00e9s and co-working spaces in Addis Ababa are just a click away. Sign in and pick up right where you left off.",
+      "statsSpaces": "Verified Spaces",
+      "statsMembers": "Active Members",
+      "statsRating": "Avg. Rating",
+      "statsNew": "New This Week",
+      "recentlyActive": "Recently active",
+      "trusted": "Trusted by freelancers, remote workers, and workspace owners across Ethiopia."
+    },
+    "register": {
+      "badge": "Live workspace data across Addis Ababa",
+      "headline": "Your city\u2019s workspaces,",
+      "headlineAccent": "at your fingertips.",
+      "description": "Join thousands of freelancers and workspace owners building the future of work in Ethiopia\u2019s capital.",
+      "feat1Title": "Verified Connectivity",
+      "feat1Desc": "Real-time internet & power status for every space.",
+      "feat2Title": "Instant Discovery",
+      "feat2Desc": "Find workspaces near you filtered by your needs.",
+      "feat3Title": "All Over Addis",
+      "feat3Desc": "From Bole to CMC \u2014 every neighbourhood covered.",
+      "testimonialQuote": "Addis Pulse saved me hours every week. I know exactly which caf\u00e9 has power before I even leave the house.",
+      "testimonialAuthor": "Mekdes Alemu",
+      "testimonialRole": "Freelance Designer, Addis Ababa"
+    }
+  }
+}
