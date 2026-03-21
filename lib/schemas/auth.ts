@@ -1,5 +1,4 @@
 import { z } from "zod";
-import { Role } from ".prisma/client";
 
 export const registerSchema = z.object({
   name: z
@@ -14,7 +13,8 @@ export const registerSchema = z.object({
     .string()
     .min(8, "Password must be at least 8 characters")
     .max(72, "Password must be at most 72 characters"),
-  role: z.enum([Role.USER, Role.OWNER], {
+
+  role: z.enum(["USER", "OWNER"], {
     message: "Role must be USER or OWNER",
   }),
 });

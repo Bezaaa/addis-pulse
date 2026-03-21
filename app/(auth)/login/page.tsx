@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -28,7 +28,6 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") ?? "/dashboard";
 
-  const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -37,23 +36,21 @@ export default function LoginPage() {
     formState: { errors },
   } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) });
 
-  function onSubmit(data: LoginInput) {
-    startTransition(async () => {
-      const result = await signIn("credentials", {
-        email: data.email,
-        password: data.password,
-        redirect: false,
-      });
-
-      if (result?.error) {
-        toast.error(t("errorInvalid"));
-        return;
-      }
-
-      toast.success(t("successWelcome"));
-      router.push(callbackUrl);
-      router.refresh();
+  async function onSubmit(data: LoginInput) {
+    const result = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
     });
+
+    if (result?.error) {
+      toast.error(t("errorInvalid"));
+      return;
+    }
+
+    toast.success(t("successWelcome"));
+    router.push(callbackUrl);
+    router.refresh();
   }
 
   return (
@@ -81,7 +78,6 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 placeholder={t("emailPlaceholder")}
-                disabled={isPending}
                 error={errors.email?.message}
                 {...field("email")}
               />
@@ -107,7 +103,6 @@ export default function LoginPage() {
                   type={showPassword ? "text" : "password"}
                   autoComplete="current-password"
                   placeholder={t("passwordPlaceholder")}
-                  disabled={isPending}
                   error={errors.password?.message}
                   suffix={
                     <button
@@ -127,11 +122,10 @@ export default function LoginPage() {
               <Button
                 type="submit"
                 fullWidth
-                loading={isPending}
                 icon={<ArrowRight className="h-4 w-4" />}
                 className="group mt-2"
               >
-                {isPending ? t("submitting") : t("submit")}
+                {t("submit")}
               </Button>
             </form>
 

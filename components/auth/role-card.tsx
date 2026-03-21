@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 interface RoleCardProps {
   value: "USER" | "OWNER";
   selected: boolean;
-  disabled: boolean;
+  disabled?: boolean;
   title: string;
   description: string;
   icon: React.ReactNode;

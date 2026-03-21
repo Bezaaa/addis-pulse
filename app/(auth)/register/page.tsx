@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransition, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,6 @@ export default function RegisterPage() {
   const t = useTranslations("auth.register");
   const tc = useTranslations("common");
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -39,16 +38,14 @@ export default function RegisterPage() {
   // eslint-disable-next-line react-hooks/incompatible-library
   const selectedRole = watch("role");
 
-  function onSubmit(data: RegisterInput) {
-    startTransition(async () => {
-      const result = await register(data);
-      if (!result.success) {
-        toast.error(result.error);
-        return;
-      }
-      toast.success(result.message);
-      router.push("/login");
-    });
+  async function onSubmit(data: RegisterInput) {
+    const result = await register(data);
+    if (!result.success) {
+      toast.error(result.error);
+      return;
+    }
+    toast.success(result.message);
+    router.push("/login");
   }
 
   return (
@@ -76,7 +73,6 @@ export default function RegisterPage() {
                 type="text"
                 autoComplete="name"
                 placeholder={t("namePlaceholder")}
-                disabled={isPending}
                 error={errors.name?.message}
                 {...field("name")}
               />
@@ -86,7 +82,6 @@ export default function RegisterPage() {
                 type="email"
                 autoComplete="email"
                 placeholder={t("emailPlaceholder")}
-                disabled={isPending}
                 error={errors.email?.message}
                 {...field("email")}
               />
@@ -96,7 +91,6 @@ export default function RegisterPage() {
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
                 placeholder={t("passwordPlaceholder")}
-                disabled={isPending}
                 error={errors.password?.message}
                 suffix={
                   <button
@@ -121,7 +115,6 @@ export default function RegisterPage() {
                   <RoleCard
                     value="USER"
                     selected={selectedRole === "USER"}
-                    disabled={isPending}
                     title={t("userRoleTitle")}
                     description={t("userRoleDesc")}
                     icon={<Laptop className="h-5 w-5" />}
@@ -130,7 +123,6 @@ export default function RegisterPage() {
                   <RoleCard
                     value="OWNER"
                     selected={selectedRole === "OWNER"}
-                    disabled={isPending}
                     title={t("ownerRoleTitle")}
                     description={t("ownerRoleDesc")}
                     icon={<Building2 className="h-5 w-5" />}
@@ -148,11 +140,10 @@ export default function RegisterPage() {
               <Button
                 type="submit"
                 fullWidth
-                loading={isPending}
                 icon={<ArrowRight className="h-4 w-4" />}
                 className="group mt-2"
               >
-                {isPending ? t("submitting") : t("submit")}
+                {t("submit")}
               </Button>
             </form>
 
