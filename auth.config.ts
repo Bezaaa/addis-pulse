@@ -13,6 +13,7 @@ const OWNER_PREFIX = "/owner";
  * Used by both auth.ts and the middleware.
  */
 export const authConfig: NextAuthConfig = {
+  trustHost: true,
   session: {
     strategy: "jwt",
   },
