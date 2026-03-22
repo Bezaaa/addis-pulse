@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+
+echo ""
+echo "▶ Deploying to Vercel..."
+vercel --prod --yes || { echo "✖ Deployment failed."; exit 1; }
+echo "✔ Deployed."
