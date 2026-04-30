@@ -1,15 +1,19 @@
 import { PrismaClient } from "@prisma/client";
-import { withAccelerate } from "@prisma/extension-accelerate";
+import { PrismaNeonHttp } from "@prisma/adapter-neon";
 
 const globalForPrisma = globalThis as unknown as {
-  prisma: ReturnType<typeof createPrismaClient> | undefined;
+  prisma: PrismaClient | undefined;
 };
 
 function createPrismaClient() {
+  const url = process.env.DATABASE_URL;
+  if (!url) throw new Error("DATABASE_URL is not set");
+
+  const adapter = new PrismaNeonHttp(url, {});
   return new PrismaClient({
-    accelerateUrl: process.env.DATABASE_URL,
+    adapter,
     log: process.env.NODE_ENV === "development" ? ["error", "warn"] : ["error"],
-  }).$extends(withAccelerate());
+  });
 }
 
 export const prisma = globalForPrisma.prisma ?? createPrismaClient();

@@ -28,7 +28,7 @@ export default function RegisterPage() {
   const {
     register: field,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     watch,
   } = useForm<RegisterInput>({
     resolver: zodResolver(registerSchema),
@@ -140,10 +140,11 @@ export default function RegisterPage() {
               <Button
                 type="submit"
                 fullWidth
+                loading={isSubmitting}
                 icon={<ArrowRight className="h-4 w-4" />}
                 className="group mt-2"
               >
-                {t("submit")}
+                {isSubmitting ? "Creating account…" : t("submit")}
               </Button>
             </form>
 

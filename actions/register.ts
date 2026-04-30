@@ -15,25 +15,37 @@ export async function register(formData: unknown): Promise<RegisterResult> {
 
   const { name, email, password, role } = parsed.data;
 
-  const existing = await prisma.user.findUnique({
-    where: { email },
-    select: { id: true },
-  });
+  try {
+    const existing = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true },
+    });
 
-  if (existing) {
-    return { success: false, error: "An account with this email already exists" };
+    if (existing) {
+      return { success: false, error: "An account with this email already exists" };
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role,
+      },
+    });
+
+    return { success: true, message: "Account created successfully. You can now sign in." };
+  } catch (err) {
+    console.error("[register]", err);
+    const message = err instanceof Error ? err.message : String(err);
+    return {
+      success: false,
+      error:
+        process.env.NODE_ENV === "development"
+          ? message
+          : "Something went wrong. Please try again.",
+    };
   }
-
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-      role,
-    },
-  });
-
-  return { success: true, message: "Account created successfully. You can now sign in." };
 }
