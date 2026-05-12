@@ -5,12 +5,19 @@ import { Menu, Search, Bell } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 const PAGE_META: Record<string, { title: string; description: string }> = {
-  "/dashboard": { title: "Dashboard", description: "Overview of your workspace" },
-  "/dashboard/spaces": { title: "Spaces", description: "Manage your workspace listings" },
-  "/dashboard/members": { title: "Members", description: "View and manage members" },
+  "/dashboard": { title: "Dashboard", description: "Your workspace overview" },
+  // Owner pages
+  "/dashboard/spaces": { title: "My Spaces", description: "Manage your workspace listings" },
   "/dashboard/bookings": { title: "Bookings", description: "Track all reservations" },
   "/dashboard/payments": { title: "Payments", description: "Billing and transactions" },
   "/dashboard/analytics": { title: "Analytics", description: "Performance insights" },
+  // User pages
+  "/dashboard/discover": { title: "Discover", description: "Find your next workspace" },
+  "/dashboard/my-bookings": { title: "My Bookings", description: "Your reservation history" },
+  "/dashboard/saved": { title: "Saved Spaces", description: "Your favorited workspaces" },
+  // Admin pages
+  "/dashboard/members": { title: "Members", description: "View and manage all users" },
+  // Shared
   "/dashboard/settings": { title: "Settings", description: "Account and preferences" },
 };
 
@@ -32,7 +39,6 @@ export function TopBar({ onMenuClick }: TopBarProps) {
         <Menu className="h-5 w-5" />
       </button>
 
-      {/* Page title — hidden on small screens (shows in sidebar header area instead) */}
       <div className="hidden sm:block">
         <p className="text-sm font-bold leading-none text-slate-900 dark:text-white">
           {page.title}
@@ -44,7 +50,6 @@ export function TopBar({ onMenuClick }: TopBarProps) {
       <p className="text-sm font-bold text-slate-900 dark:text-white sm:hidden">{page.title}</p>
 
       <div className="ml-auto flex items-center gap-2">
-        {/* Search bar */}
         <div className="hidden cursor-pointer items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 transition hover:border-slate-300 dark:border-dark-300 dark:bg-dark-100 dark:hover:border-dark-400 md:flex">
           <Search className="h-3.5 w-3.5 text-slate-400" />
           <span className="text-xs text-slate-400">Search anything…</span>
@@ -52,13 +57,10 @@ export function TopBar({ onMenuClick }: TopBarProps) {
             ⌘K
           </kbd>
         </div>
-
-        {/* Notification bell */}
         <button className="relative flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-500 shadow-sm transition hover:bg-slate-50 dark:border-dark-300 dark:bg-dark-100 dark:text-slate-400 dark:hover:bg-dark-200">
           <Bell className="h-4 w-4" />
           <span className="absolute right-2 top-2 h-1.5 w-1.5 rounded-full bg-brand-500 ring-1 ring-white dark:ring-dark-50" />
         </button>
-
         <ThemeToggle />
       </div>
     </header>

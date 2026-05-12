@@ -13,40 +13,75 @@ import {
   Zap,
   X,
   LogOut,
+  Compass,
+  Bookmark,
+  Shield,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { handleSignOut } from "@/actions/sign-out";
 
-const NAV_ITEMS = [
+// ── Role-based nav configs ─────────────────────────────────────────────────
+type NavItem = {
+  href: string;
+  icon: React.ElementType;
+  label: string;
+  exact: boolean;
+  count?: number;
+};
+
+const OWNER_NAV: NavItem[] = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", exact: true },
-  { href: "/dashboard/spaces", icon: Building2, label: "Spaces", exact: false },
-  { href: "/dashboard/members", icon: Users, label: "Members", exact: false },
-  { href: "/dashboard/bookings", icon: CalendarDays, label: "Bookings", exact: false },
-  { href: "/dashboard/payments", icon: CreditCard, label: "Payments", exact: false },
+  { href: "/dashboard/spaces", icon: Building2, label: "My Spaces", exact: false },
+  { href: "/dashboard/bookings", icon: CalendarDays, label: "Bookings", exact: false, count: 9 },
+  { href: "/dashboard/payments", icon: CreditCard, label: "Payments", exact: false, count: 2 },
   { href: "/dashboard/analytics", icon: BarChart3, label: "Analytics", exact: false },
 ];
 
+const USER_NAV: NavItem[] = [
+  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", exact: true },
+  { href: "/dashboard/discover", icon: Compass, label: "Discover", exact: false },
+  {
+    href: "/dashboard/my-bookings",
+    icon: CalendarDays,
+    label: "My Bookings",
+    exact: false,
+    count: 2,
+  },
+  { href: "/dashboard/saved", icon: Bookmark, label: "Saved Spaces", exact: false },
+];
+
+const ADMIN_NAV: NavItem[] = [
+  { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", exact: true },
+  { href: "/dashboard/spaces", icon: Building2, label: "Spaces", exact: false },
+  { href: "/dashboard/members", icon: Users, label: "Members", exact: false },
+  { href: "/dashboard/bookings", icon: CalendarDays, label: "Bookings", exact: false, count: 9 },
+  { href: "/dashboard/payments", icon: CreditCard, label: "Payments", exact: false, count: 2 },
+  { href: "/dashboard/analytics", icon: BarChart3, label: "Analytics", exact: false },
+];
+
+function getNav(role?: string | null) {
+  if (role === "OWNER") return OWNER_NAV;
+  if (role === "ADMIN") return ADMIN_NAV;
+  return USER_NAV;
+}
+
+// ── Components ────────────────────────────────────────────────────────────
 interface SidebarProps {
   open: boolean;
   onClose: () => void;
   user: { name?: string | null; email?: string | null; role?: string | null };
 }
 
-function NavItem({
-  href,
-  icon: Icon,
-  label,
-  exact,
+function NavLink({
+  item,
   pathname,
   onClick,
 }: {
-  href: string;
-  icon: React.ElementType;
-  label: string;
-  exact: boolean;
+  item: NavItem;
   pathname: string;
   onClick: () => void;
 }) {
+  const { href, icon: Icon, label, exact, count } = item;
   const isActive = exact ? pathname === href : pathname === href || pathname.startsWith(href + "/");
 
   return (
@@ -62,27 +97,43 @@ function NavItem({
     >
       <Icon
         className={cn(
-          "h-4 w-4 flex-shrink-0 transition-colors",
+          "h-4 w-4 flex-shrink-0",
           isActive
             ? "text-white"
             : "text-slate-400 group-hover:text-slate-600 dark:text-slate-500 dark:group-hover:text-slate-300"
         )}
       />
       <span className="flex-1 truncate">{label}</span>
-      {isActive && <span className="h-1.5 w-1.5 rounded-full bg-white/70" />}
+      {count !== undefined && (
+        <span
+          className={cn(
+            "flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-bold",
+            isActive
+              ? "bg-white/25 text-white"
+              : "bg-brand-100 text-brand-700 dark:bg-brand-500/20 dark:text-brand-400"
+          )}
+        >
+          {count}
+        </span>
+      )}
     </Link>
   );
 }
 
+// ── Sidebar ───────────────────────────────────────────────────────────────
 export function Sidebar({ open, onClose, user }: SidebarProps) {
   const pathname = usePathname();
+  const nav = getNav(user.role);
   const initial = (user.name ?? user.email ?? "U")[0].toUpperCase();
   const displayName = user.name ?? user.email?.split("@")[0] ?? "User";
-  const roleLabel = user.role ? user.role[0] + user.role.slice(1).toLowerCase() : "Member";
+  const roleLabel = user.role
+    ? user.role[0].toUpperCase() + user.role.slice(1).toLowerCase()
+    : "Member";
+
+  const RoleIcon = user.role === "ADMIN" ? Shield : user.role === "OWNER" ? Building2 : Compass;
 
   return (
     <>
-      {/* Mobile backdrop */}
       {open && (
         <div
           className="fixed inset-0 z-20 bg-black/50 backdrop-blur-sm lg:hidden"
@@ -94,8 +145,7 @@ export function Sidebar({ open, onClose, user }: SidebarProps) {
         className={cn(
           "fixed inset-y-0 left-0 z-30 flex w-60 flex-col",
           "border-r border-slate-200 bg-white dark:border-dark-200 dark:bg-dark-50",
-          "transition-transform duration-200 ease-in-out",
-          "lg:translate-x-0",
+          "transition-transform duration-200 ease-in-out lg:translate-x-0",
           open ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -120,26 +170,36 @@ export function Sidebar({ open, onClose, user }: SidebarProps) {
           </button>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 overflow-y-auto px-3 py-5">
+        {/* Role badge */}
+        <div className="mx-3 mt-3 flex items-center gap-2 rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 dark:border-dark-200 dark:bg-dark-100">
+          <RoleIcon className="h-3.5 w-3.5 text-brand-500" />
+          <span className="text-xs font-semibold text-slate-600 dark:text-slate-400">
+            {roleLabel} Portal
+          </span>
+        </div>
+
+        {/* Nav */}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
           <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-600">
-            Main Menu
+            Menu
           </p>
           <div className="space-y-0.5">
-            {NAV_ITEMS.map((item) => (
-              <NavItem key={item.href} {...item} pathname={pathname} onClick={onClose} />
+            {nav.map((item) => (
+              <NavLink key={item.href} item={item} pathname={pathname} onClick={onClose} />
             ))}
           </div>
 
-          <div className="mt-6">
+          <div className="mt-5">
             <p className="mb-2 px-3 text-[10px] font-semibold uppercase tracking-widest text-slate-400 dark:text-slate-600">
               System
             </p>
-            <NavItem
-              href="/dashboard/settings"
-              icon={Settings}
-              label="Settings"
-              exact={false}
+            <NavLink
+              item={{
+                href: "/dashboard/settings",
+                icon: Settings,
+                label: "Settings",
+                exact: false,
+              }}
               pathname={pathname}
               onClick={onClose}
             />
