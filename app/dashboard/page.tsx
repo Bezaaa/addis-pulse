@@ -384,7 +384,8 @@ const FEATURED_SPACES = [
     location: "Bole, Addis Ababa",
     rating: 4.9,
     price: "ETB 150/hr",
-    gradient: "from-brand-400 to-brand-600",
+    bg: "bg-amber-900",
+    accent: "text-amber-400",
     available: true,
     seats: 24,
   },
@@ -393,7 +394,8 @@ const FEATURED_SPACES = [
     location: "Kazanchis",
     rating: 4.7,
     price: "ETB 200/hr",
-    gradient: "from-blue-400 to-blue-600",
+    bg: "bg-blue-900",
+    accent: "text-blue-400",
     available: true,
     seats: 40,
   },
@@ -402,7 +404,8 @@ const FEATURED_SPACES = [
     location: "Piassa",
     rating: 4.5,
     price: "ETB 120/hr",
-    gradient: "from-emerald-400 to-emerald-600",
+    bg: "bg-emerald-900",
+    accent: "text-emerald-400",
     available: false,
     seats: 16,
   },
@@ -507,7 +510,10 @@ function UserDashboard({ name }: { name: string }) {
               key={space.name}
               className="group overflow-hidden rounded-xl border border-slate-100 transition-all hover:border-slate-200 hover:shadow-md dark:border-dark-200 dark:hover:border-dark-300"
             >
-              <div className={`relative h-20 bg-gradient-to-br ${space.gradient}`}>
+              <div className={`relative h-20 ${space.bg}`}>
+                <Building2
+                  className={`absolute right-2 top-1/2 h-14 w-14 -translate-y-1/2 opacity-[0.08] ${space.accent}`}
+                />
                 <Badge
                   variant={space.available ? "emerald" : "default"}
                   dot

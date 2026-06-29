@@ -31,32 +31,26 @@ type NavItem = {
 
 const OWNER_NAV: NavItem[] = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", exact: true },
-  { href: "/dashboard/spaces", icon: Building2, label: "My Spaces", exact: false },
-  { href: "/dashboard/bookings", icon: CalendarDays, label: "Bookings", exact: false, count: 9 },
-  { href: "/dashboard/payments", icon: CreditCard, label: "Payments", exact: false, count: 2 },
-  { href: "/dashboard/analytics", icon: BarChart3, label: "Analytics", exact: false },
+  { href: "/spaces", icon: Building2, label: "My Spaces", exact: false },
+  { href: "/bookings", icon: CalendarDays, label: "Bookings", exact: false, count: 9 },
+  { href: "/payments", icon: CreditCard, label: "Payments", exact: false, count: 2 },
+  { href: "/analytics", icon: BarChart3, label: "Analytics", exact: false },
 ];
 
 const USER_NAV: NavItem[] = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", exact: true },
-  { href: "/dashboard/discover", icon: Compass, label: "Discover", exact: false },
-  {
-    href: "/dashboard/my-bookings",
-    icon: CalendarDays,
-    label: "My Bookings",
-    exact: false,
-    count: 2,
-  },
-  { href: "/dashboard/saved", icon: Bookmark, label: "Saved Spaces", exact: false },
+  { href: "/discover", icon: Compass, label: "Discover", exact: false },
+  { href: "/my-bookings", icon: CalendarDays, label: "My Bookings", exact: false, count: 2 },
+  { href: "/saved", icon: Bookmark, label: "Saved Spaces", exact: false },
 ];
 
 const ADMIN_NAV: NavItem[] = [
   { href: "/dashboard", icon: LayoutDashboard, label: "Dashboard", exact: true },
-  { href: "/dashboard/spaces", icon: Building2, label: "Spaces", exact: false },
-  { href: "/dashboard/members", icon: Users, label: "Members", exact: false },
-  { href: "/dashboard/bookings", icon: CalendarDays, label: "Bookings", exact: false, count: 9 },
-  { href: "/dashboard/payments", icon: CreditCard, label: "Payments", exact: false, count: 2 },
-  { href: "/dashboard/analytics", icon: BarChart3, label: "Analytics", exact: false },
+  { href: "/spaces", icon: Building2, label: "Spaces", exact: false },
+  { href: "/members", icon: Users, label: "Members", exact: false },
+  { href: "/bookings", icon: CalendarDays, label: "Bookings", exact: false, count: 9 },
+  { href: "/payments", icon: CreditCard, label: "Payments", exact: false, count: 2 },
+  { href: "/analytics", icon: BarChart3, label: "Analytics", exact: false },
 ];
 
 function getNav(role?: string | null) {
@@ -195,7 +189,7 @@ export function Sidebar({ open, onClose, user }: SidebarProps) {
             </p>
             <NavLink
               item={{
-                href: "/dashboard/settings",
+                href: "/settings",
                 icon: Settings,
                 label: "Settings",
                 exact: false,

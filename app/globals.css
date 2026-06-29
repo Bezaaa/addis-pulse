@@ -63,6 +63,13 @@ body {
   color: #f1f5f9;
 }
 
+/* ─── Pointer cursor ───────────────────────────────────────────────────────── */
+button,
+[role="button"],
+a {
+  cursor: pointer;
+}
+
 /* ─── Custom scrollbar ──────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;

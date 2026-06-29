@@ -7,18 +7,18 @@ import { ThemeToggle } from "@/components/ui/theme-toggle";
 const PAGE_META: Record<string, { title: string; description: string }> = {
   "/dashboard": { title: "Dashboard", description: "Your workspace overview" },
   // Owner pages
-  "/dashboard/spaces": { title: "My Spaces", description: "Manage your workspace listings" },
-  "/dashboard/bookings": { title: "Bookings", description: "Track all reservations" },
-  "/dashboard/payments": { title: "Payments", description: "Billing and transactions" },
-  "/dashboard/analytics": { title: "Analytics", description: "Performance insights" },
+  "/spaces": { title: "My Spaces", description: "Manage your workspace listings" },
+  "/bookings": { title: "Bookings", description: "Track all reservations" },
+  "/payments": { title: "Payments", description: "Billing and transactions" },
+  "/analytics": { title: "Analytics", description: "Performance insights" },
   // User pages
-  "/dashboard/discover": { title: "Discover", description: "Find your next workspace" },
-  "/dashboard/my-bookings": { title: "My Bookings", description: "Your reservation history" },
-  "/dashboard/saved": { title: "Saved Spaces", description: "Your favorited workspaces" },
+  "/discover": { title: "Discover", description: "Find your next workspace" },
+  "/my-bookings": { title: "My Bookings", description: "Your reservation history" },
+  "/saved": { title: "Saved Spaces", description: "Your favorited workspaces" },
   // Admin pages
-  "/dashboard/members": { title: "Members", description: "View and manage all users" },
+  "/members": { title: "Members", description: "View and manage all users" },
   // Shared
-  "/dashboard/settings": { title: "Settings", description: "Account and preferences" },
+  "/settings": { title: "Settings", description: "Account and preferences" },
 };
 
 interface TopBarProps {

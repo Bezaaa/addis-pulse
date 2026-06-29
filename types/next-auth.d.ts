@@ -6,12 +6,14 @@ declare module "next-auth" {
     user: {
       id: string;
       role: Role;
+      mustChangePassword?: boolean;
     } & DefaultSession["user"];
   }
 
   /** The shape returned by the `authorize` callback and stored in the JWT. */
   interface User {
     role: Role;
+    mustChangePassword?: boolean;
   }
 }
 
@@ -19,5 +21,6 @@ declare module "next-auth/jwt" {
   interface JWT {
     id: string;
     role: Role;
+    mustChangePassword?: boolean;
   }
 }
